@@ -1,14 +1,19 @@
-
-<codeblock><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Ordem de Serviço</title>
     <link rel="stylesheet" href="desing.css">
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 40px;
+            background: #e8f0fe; /* Fundo suave pra melhorar visual */
         }
 
         h1, h2 {
@@ -20,42 +25,119 @@
             margin-bottom: 30px;
         }
 
+        .pdf-container {
+            max-width: 190mm;
+            margin: 0 auto;
+            overflow: hidden;
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        /* ===== DADOS EM 2 COLUNAS ===== */
+        .dados {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 16px;
+            margin-bottom: 20px;
+        }
+
+        .dados .campo {
+            display: flex;
+            align-items: center;
+        }
         .dados label {
-            display: inline-block;
-            width: 150px;
+            width: 90px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .dados input {
-            width: 300px;
-            margin-bottom: 10px;
+            flex: 1;
+            max-width: 100%;
+            padding: 6px 8px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
+        .campo-full {
+            grid-column: 1 / -1;
+        }
+
+        /* ===== TABELA COMPACTA ===== */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            table-layout: fixed;
+            font-size: 13px;
         }
 
         table, th, td {
             border: 1px solid #000;
         }
 
-        th, td {
-            padding: 6px;
+        th {
+            padding: 2px 4px;
+            background: #1f497d;
+            color: #fff;
+            font-weight: 600;
             text-align: center;
         }
 
-        input[type="number"] {
-            width: 80px;
+        td {
+            padding: 1px 6px;
+            vertical-align: middle;
+            word-wrap: break-word;
+            text-align: center;
         }
 
+        /* Inputs na tabela */
+        #tabela input[type="number"] {
+            width: 60px;
+            height: 26px;
+            padding: 3px 5px;
+            font-size: 12px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        /* Textarea descrição */
+        #tabela textarea {
+            min-height: 20px;
+            max-height: 45px;
+            font-size: 12px;
+            padding: 4px 6px;
+            resize: none;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        /* Botões */
         .btn {
-            margin-top: 10px;
-            padding: 8px 15px;
+            margin-top: 12px;
+            padding: 8px 16px;
             cursor: pointer;
+            background-color: #1f497d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: background-color 0.3s ease;
         }
 
+        .btn:hover {
+            background-color: #163758;
+        }
+
+        /* Total geral */
         .total-geral {
             text-align: right;
             font-size: 18px;
@@ -71,73 +153,136 @@
             text-align: right;
             border: none;
             background-color: transparent;
+            pointer-events: none; /* Desabilita edição direto no input */
         }
 
-        textarea {
-            width: 100%;
-            min-height: 80px;
-            box-sizing: border-box;
-            resize: vertical;
-        }
-
+        /* ====== AJUSTES PARA PDF ====== */
         @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: #fff;
+            }
+
             .btn-print-hide {
                 display: none;
+            }
+
+            input, textarea {
+                font-size: 11px;
+            }
+
+            table {
+                font-size: 11px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            h2 {
+                font-size: 14px;
+            }
+
+            .total-geral {
+                font-size: 14px;
+            }
+
+            .dados {
+                gap: 6px 10px;
+            }
+
+            .dados label {
+                width: 110px;
+                font-size: 11px;
+            }
+
+            #tabela input[type="number"] {
+                width: 55px;
+                height: 22px;
+                font-size: 11px;
+            }
+
+            #tabela textarea {
+                min-height: 24px;
+                max-height: 32px;
+                font-size: 11px;
+            }
+
+            th, td {
+                padding: 3px 4px;
             }
         }
     </style>
 
-    <!-- Biblioteca html2pdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
+
 <body>
+<div class="pdf-container">
 
-<div class="empresa">
-    <h1>Silfer Serralheria</h1>
+    <div class="empresa">
+        <h1>Silfer Serralheria</h1>
+    </div>
+
+    <div class="dados">
+        <div class="campo">
+            <label>Nome:</label>
+            <input type="text">
+        </div>
+
+        <div class="campo">
+            <label>Telefone:</label>
+            <input type="text">
+        </div>
+
+        <div class="campo">
+            <label>Endereço 1:</label>
+            <input type="text">
+        </div>
+
+        <div class="campo">
+            <label>CNPJ/CPF:</label>
+            <input type="text">
+        </div>
+
+        <div class="campo campo-full">
+            <label>Endereço de Cobrança:</label>
+            <input type="text">
+        </div>
+    </div>
+
+    <h2>Produtos / Serviços</h2>
+
+    <table id="tabela">
+        <thead>
+            <tr>
+                <th style="width: 10%;">Qtd</th>
+                <th style="width: 50%;">Descrição</th>
+                <th style="width: 20%;">Valor Unit</th>
+                <th style="width: 20%;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="number" value="1" oninput="calcular(this)"></td>
+                <td><textarea rows="3"></textarea></td>
+                <td><input type="number" value="0.00" step="0.01" oninput="calcular(this)"></td>
+                <td><input type="number" value="0.00" step="0.01" readonly></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-print-hide" onclick="adicionarLinha()">➕ Adicionar Produto</button>
+
+    <div class="total-geral">
+        Total Geral: R$
+        <input type="number" id="totalGeralInput" value="0.00" step="0.01" readonly>
+    </div>
+
+    <button class="btn btn-print-hide" onclick="gerarPdf()">Salvar como PDF</button>
+
 </div>
-
-<div class="dados">
-    <p><label>Nome:</label><input type="text"></p>
-    <p><label>Endereço 1:</label><input type="text"></p>
-    <p><label>Endereço de Cobrança:</label><input type="text"></p>
-    <p><label>CNPJ/CPF:</label><input type="text"></p>
-    <p><label>Telefone:</label><input type="text"></p>
-</div>
-
-<h2>Produtos / Serviços</h2>
-
-<table id="tabela">
-    <thead>
-        <tr>
-            <th>Qtd</th>
-            <th>Descrição</th>
-            <th>Valor Unit</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input type="number" value="1" oninput="calcular(this)"></td>
-            <td><textarea rows="4"></textarea></td>
-            <td><input type="number" value="0.00" step="0.01" oninput="calcular(this)"></td>
-            <td><input type="number" value="0.00" step="0.01" oninput="calcular(this)"></td>
-        </tr>
-    </tbody>
-</table>
-
-<button class="btn btn-print-hide" onclick="adicionarLinha()">➕ Adicionar Produto</button>
-
-<div class="total-geral">
-    Total Geral: R$
-    <input
-        type="number"
-        id="totalGeralInput"
-        value="0.00"
-        step="0.01"
-        oninput="marcarTotalGeralEditado()">
-</div>
-
-<button class="btn btn-print-hide" onclick="gerarPdf()">Salvar como PDF</button>
 
 <script>
 let totalGeralManualOverride = false;
@@ -152,29 +297,25 @@ function adicionarLinha() {
 
     novaLinha.innerHTML = `
         <td><input type="number" value="1" oninput="calcular(this)"></td>
-        <td><textarea rows="4"></textarea></td>
+        <td><textarea rows="3"></textarea></td>
         <td><input type="number" value="0.00" step="0.01" oninput="calcular(this)"></td>
-        <td><input type="number" value="0.00" step="0.01" oninput="calcular(this)"></td>
+        <td><input type="number" value="0.00" step="0.01" readonly></td>
     `;
 
     totalGeralManualOverride = false;
     calcular();
 }
 
-function calcular(elementoModificado) {
+function calcular() {
     const linhas = document.querySelectorAll("#tabela tbody tr");
     let somaLinhas = 0;
 
     linhas.forEach(linha => {
-        const qtdInput = linha.cells[0].querySelector("input");
-        const unitInput = linha.cells[2].querySelector("input");
-        const totalLinhaInput = linha.cells[3].querySelector("input");
+        const qtd = parseFloat(linha.cells[0].querySelector("input").value) || 0;
+        const unit = parseFloat(linha.cells[2].querySelector("input").value) || 0;
+        const totalLinha = qtd * unit;
 
-        let qtd = parseFloat(qtdInput.value) || 0;
-        let unit = parseFloat(unitInput.value) || 0;
-        let totalLinha = qtd * unit;
-
-        totalLinhaInput.value = totalLinha.toFixed(2);
+        linha.cells[3].querySelector("input").value = totalLinha.toFixed(2);
         somaLinhas += totalLinha;
     });
 
@@ -184,15 +325,22 @@ function calcular(elementoModificado) {
 }
 
 function gerarPdf() {
-    const element = document.body.cloneNode(true);
-    element.querySelectorAll('.btn-print-hide').forEach(btn => btn.remove());
+    const element = document.querySelector('.pdf-container').cloneNode(true);
 
     const options = {
-        margin: 10,
+        margin: [5, 5, 5, 5],
         filename: 'ordem_de_servico.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        html2canvas: {
+            scale: 2,
+            scrollY: 0,
+            useCORS: true
+        },
+        jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+        }
     };
 
     html2pdf().set(options).from(element).save();
@@ -202,4 +350,4 @@ window.onload = calcular;
 </script>
 
 </body>
-</html></codeblock>
+</html>
