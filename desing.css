@@ -1,0 +1,188 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* FUNDO */
+body {
+    background: linear-gradient(135deg, #eef2f7, #dfe7f2);
+    padding: 30px;
+    color: #2c3e50;
+}
+
+/* CONTAINER GERAL */
+body > div,
+table,
+h2 {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* CABEÇALHO */
+.empresa {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.empresa h1 {
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+
+.empresa p {
+    margin-top: 8px;
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+/* DADOS DO CLIENTE */
+.dados {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.dados p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.dados label {
+    width: 220px;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.dados input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+.dados input:focus {
+    border-color: #2a5298;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(42,82,152,0.15);
+}
+
+/* TÍTULO */
+h2 {
+    margin: 25px auto 15px;
+    font-size: 22px;
+    color: #1e3c72;
+}
+
+/* TABELA */
+table {
+    width: 100%;
+    background: #fff;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+thead {
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    color: #fff;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+tbody tr:hover {
+    background: #f4f8ff;
+}
+
+/* INPUTS DA TABELA */
+table input,
+table textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+table textarea {
+    resize: vertical;
+}
+
+/* BOTÕES */
+.btn {
+    margin-top: 20px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* TOTAL GERAL */
+.total-geral {
+    margin-top: 25px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #1e3c72;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.total-geral input {
+    width: 160px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #2a5298;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* RODAPÉ */
+.empresa:last-of-type {
+    background: #f1f4f9;
+    color: #555;
+    box-shadow: none;
+}
+
+/* IMPRESSÃO / PDF */
+@media print {
+    body {
+        background: #fff;
+        padding: 0;
+    }
+
+    .btn-print-hide {
+        display: none;
+    }
+
+    .empresa {
+        box-shadow: none;
+    }
+}
