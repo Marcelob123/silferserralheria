@@ -2,8 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>OS - Silffer Serralheria</title>
+<meta name="theme-color" content="#1f2937">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OS Silffer">
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiT1MgU2lsZmZlciIsInNob3J0X25hbWUiOiJPUyBTaWxmZmVyIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzFmMjkzNyIsInRoZW1lX2NvbG9yIjoiIzFmMjkzNyJ9">
 <style>
 :root{
   --dark:#1f2937;
@@ -21,6 +27,7 @@ body{
   background:var(--light);
   color:var(--dark);
   line-height:1.4;
+  -webkit-tap-highlight-color:transparent;
 }
 header{
   background:var(--dark);
@@ -70,6 +77,7 @@ header{
   font-size:14px;
   transition:.2s;
   white-space:nowrap;
+  touch-action:manipulation;
 }
 .btn-primary{
   background:var(--orange);
@@ -375,14 +383,6 @@ table.preview-mat tfoot td{
   line-height:1.6;
 }
 .cond-box b{color:#374151}
-.obs-box{
-  margin-top:14px;
-  font-size:12px;
-  background:#fffbeb;
-  border:1px solid #fde68a;
-  padding:10px 12px;
-  border-radius:8px;
-}
 .signatures{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -421,24 +421,61 @@ table.preview-mat tfoot td{
   margin-left:8px;
 }
 
+.mobile-tabs{display:none}
+.fab{display:none}
+
 @media(max-width:1100px){
   .container{grid-template-columns:1fr}
   .preview-panel{position:static}
   .totals-wrap{grid-template-columns:1fr}
 }
-@media(max-width:600px){
-  header{flex-direction:column;align-items:stretch}
-  .header-actions{justify-content:space-between}
-  .form-grid,.form-grid-3{grid-template-columns:1fr}
-  .preview-header{flex-direction:column}
+
+/* MOBILE APP */
+@media(max-width:768px){
+  body{padding-bottom:env(safe-area-inset-bottom); background:#fff}
+  header{position:relative; padding:12px 14px; flex-wrap:wrap; gap:10px}
+  .brand{font-size:18px}
+  .brand-icon{width:36px;height:36px;font-size:17px}
+  .header-actions{width:100%; gap:6px; overflow-x:auto; scrollbar-width:none}
+  .header-actions::-webkit-scrollbar{display:none}
+  .btn{padding:12px 16px; font-size:15px; min-height:44px; border-radius:10px; flex-shrink:0}
+  
+  .container{display:block; padding:12px; gap:16px}
+  .mobile-tabs{display:flex; position:sticky; top:0; z-index:80; background:#fff; padding:10px 12px; margin:-12px -12px 10px; border-bottom:1px solid var(--border); gap:8px; box-shadow:0 2px 8px rgba(0,0,0,.04)}
+  .mobile-tabs button{flex:1; padding:12px; border:1px solid var(--border); background:#f9fafb; border-radius:10px; font-weight:700; font-size:14px; color:var(--gray); min-height:44px; cursor:pointer}
+  .mobile-tabs button.active{background:var(--dark); color:#fff; border-color:var(--dark)}
+  
+  .form-panel{gap:12px}
+  .card{padding:14px; border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .form-grid,.form-grid-3{grid-template-columns:1fr; gap:10px}
+  label{font-size:13px}
+  input,select,textarea{padding:14px 12px; font-size:16px; min-height:48px; border-radius:10px}
+  textarea{min-height:100px}
+  
+  table.materiais input, table.materiais select{padding:10px 8px; font-size:16px; min-height:44px; border-radius:8px}
+  .remove{width:40px; height:40px; font-size:24px; border-radius:8px}
+  .add-btn{padding:12px; font-size:14px; min-height:44px}
+  
+  .preview-panel{display:none; position:static}
+  .preview-panel.active{display:block}
+  .form-panel.active{display:flex}
+  .preview-toolbar{display:none}
+  .preview-wrapper{width:100%; overflow:auto; -webkit-overflow-scrolling:touch; display:flex; justify-content:center; padding:0 0 100px}
+  #os-preview{transform:scale(0.7); transform-origin:top center; margin:0; box-shadow:0 4px 20px rgba(0,0,0,.15); flex-shrink:0}
+  
+  .fab{display:flex; position:fixed; bottom:calc(20px + env(safe-area-inset-bottom)); right:20px; width:56px; height:56px; border-radius:28px; background:var(--orange); color:var(--dark); border:none; box-shadow:0 6px 16px rgba(245,158,11,.4), 0 2px 6px rgba(0,0,0,.25); align-items:center; justify-content:center; z-index:500; cursor:pointer; touch-action:manipulation}
+  .fab:active{transform:scale(0.96)}
+  
+  .preview-header{flex-direction:column; align-items:flex-start}
   .preview-company{text-align:left}
+  .signatures{grid-template-columns:1fr; gap:30px}
 }
 
 @media print{
   body{background:#fff}
-  header,.form-panel,.preview-toolbar{display:none !important}
+  header,.form-panel,.preview-toolbar,.mobile-tabs,.fab{display:none !important}
   .container{display:block;padding:0}
-  #os-preview{box-shadow:none;border-radius:0;max-width:100%}
+  #os-preview{box-shadow:none;border-radius:0;max-width:100%; transform:none !important}
 }
 </style>
 </head>
@@ -455,6 +492,11 @@ table.preview-mat tfoot td{
     <button class="btn btn-primary" id="btn-pdf">Gerar PDF</button>
   </div>
 </header>
+
+<div class="mobile-tabs">
+  <button id="tab-form" class="active">📝 Formulário</button>
+  <button id="tab-preview">👁️ Preview</button>
+</div>
 
 <main class="container">
   <section class="form-panel" id="form-panel">
@@ -640,111 +682,117 @@ table.preview-mat tfoot td{
     </div>
   </section>
 
-  <section class="preview-panel">
+  <section class="preview-panel" id="preview-panel">
     <div class="preview-toolbar">
       <span>Pré-visualização em tempo real</span>
       <span class="badge">A4</span>
     </div>
-    <div id="os-preview">
-      <div class="preview-header">
-        <div>
-          <div class="preview-title">SILFFER <span>SERRALHERIA</span></div>
-          <div class="preview-sub">Portões • Grades • Estruturas Metálicas • Soldas</div>
-        </div>
-        <div class="preview-company">
-          <div id="pv_empresa_nome">SILFFER SERRALHERIA</div>
-          <div id="pv_empresa_tel">(11) 99999-0000</div>
-          <div id="pv_empresa_cnpj">CNPJ 00.000.000/0001-00</div>
-          <div id="pv_empresa_end">Rua das Oficinas, 123 - São Paulo/SP</div>
-        </div>
-      </div>
-      <div class="preview-body">
-        <div class="os-meta">
-          <div class="meta-item">
-            <label>Ordem de Serviço</label>
-            <strong id="pv_os_numero">OS-2026-001</strong>
+    <div class="preview-wrapper">
+      <div id="os-preview">
+        <div class="preview-header">
+          <div>
+            <div class="preview-title">SILFFER <span>SERRALHERIA</span></div>
+            <div class="preview-sub">Portões • Grades • Estruturas Metálicas • Soldas</div>
           </div>
-          <div class="meta-item">
-            <label>Data Abertura</label>
-            <strong id="pv_os_data">--/--/----</strong>
-          </div>
-          <div class="meta-item">
-            <label>Previsão Entrega</label>
-            <strong id="pv_os_previsao">--/--/----</strong>
+          <div class="preview-company">
+            <div id="pv_empresa_nome">SILFFER SERRALHERIA</div>
+            <div id="pv_empresa_tel">(11) 99999-0000</div>
+            <div id="pv_empresa_cnpj">CNPJ 00.000.000/0001-00</div>
+            <div id="pv_empresa_end">Rua das Oficinas, 123 - São Paulo/SP</div>
           </div>
         </div>
+        <div class="preview-body">
+          <div class="os-meta">
+            <div class="meta-item">
+              <label>Ordem de Serviço</label>
+              <strong id="pv_os_numero">OS-2026-001</strong>
+            </div>
+            <div class="meta-item">
+              <label>Data Abertura</label>
+              <strong id="pv_os_data">--/--/----</strong>
+            </div>
+            <div class="meta-item">
+              <label>Previsão Entrega</label>
+              <strong id="pv_os_previsao">--/--/----</strong>
+            </div>
+          </div>
 
-        <div class="section">
-          <div class="section-title">Dados do Cliente</div>
-          <div class="info-grid">
-            <div class="info-item"><b>Nome:</b> <span id="pv_cliente_nome">-</span></div>
-            <div class="info-item"><b>CPF/CNPJ:</b> <span id="pv_cliente_cpf">-</span></div>
-            <div class="info-item"><b>WhatsApp:</b> <span id="pv_cliente_whats">-</span></div>
-            <div class="info-item"><b>Endereço:</b> <span id="pv_cliente_end">-</span></div>
+          <div class="section">
+            <div class="section-title">Dados do Cliente</div>
+            <div class="info-grid">
+              <div class="info-item"><b>Nome:</b> <span id="pv_cliente_nome">-</span></div>
+              <div class="info-item"><b>CPF/CNPJ:</b> <span id="pv_cliente_cpf">-</span></div>
+              <div class="info-item"><b>WhatsApp:</b> <span id="pv_cliente_whats">-</span></div>
+              <div class="info-item"><b>Endereço:</b> <span id="pv_cliente_end">-</span></div>
+            </div>
           </div>
-        </div>
 
-        <div class="section">
-          <div class="section-title">Serviço Solicitado</div>
-          <div style="margin-bottom:8px;font-size:13px"><b>Tipo:</b> <span id="pv_servico_tipo">Portão de correr</span></div>
-          <div class="desc-box" id="pv_servico_desc"></div>
-          <div style="margin-top:10px" class="measures" id="pv_medidas"></div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Materiais Utilizados</div>
-          <table class="preview-mat">
-            <thead>
-              <tr>
-                <th>Descrição</th>
-                <th style="width:50px">Qtd</th>
-                <th style="width:40px">Un</th>
-                <th style="width:80px" class="text-right">Vlr Unit</th>
-                <th style="width:90px" class="text-right">Subtotal</th>
-              </tr>
-            </thead>
-            <tbody id="pv_materiais_body"></tbody>
-            <tfoot>
-              <tr>
-                <td colspan="4" class="text-right">TOTAL MATERIAIS</td>
-                <td class="text-right" id="pv_total_materiais">R$ 0,00</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-
-        <div class="totals-wrap">
-          <div class="total-box">
-            <div class="total-row"><span>Mão de Obra</span><span id="pv_mao_obra">R$ 0,00</span></div>
-            <div class="total-row"><span>Materiais</span><span id="pv_total_materiais2">R$ 0,00</span></div>
-            <div class="total-row grand"><span>TOTAL GERAL</span><span id="pv_total_geral">R$ 0,00</span></div>
+          <div class="section">
+            <div class="section-title">Serviço Solicitado</div>
+            <div style="margin-bottom:8px;font-size:13px"><b>Tipo:</b> <span id="pv_servico_tipo">Portão de correr</span></div>
+            <div class="desc-box" id="pv_servico_desc"></div>
+            <div style="margin-top:10px" class="measures" id="pv_medidas"></div>
           </div>
-          <div class="cond-box">
-            <div><b>Pagamento:</b> <span id="pv_forma_pag">Pix</span></div>
-            <div><b>Entrada:</b> <span id="pv_entrada">R$ 0,00</span> | <b>Saldo:</b> <span id="pv_saldo">R$ 0,00</span></div>
-            <div><b>Garantia:</b> <span id="pv_garantia">12</span> meses contra defeitos de fabricação</div>
-            <div><b>Validade:</b> <span id="pv_validade">15</span> dias</div>
-          </div>
-        </div>
 
-        <div class="signatures">
-          <div class="sig">
-            <div class="sig-line" id="pv_responsavel_sig">Silffer Serralheria</div>
-            <div>Prestador do Serviço</div>
+          <div class="section">
+            <div class="section-title">Materiais Utilizados</div>
+            <table class="preview-mat">
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th style="width:50px">Qtd</th>
+                  <th style="width:40px">Un</th>
+                  <th style="width:80px" class="text-right">Vlr Unit</th>
+                  <th style="width:90px" class="text-right">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="pv_materiais_body"></tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4" class="text-right">TOTAL MATERIAIS</td>
+                  <td class="text-right" id="pv_total_materiais">R$ 0,00</td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
-          <div class="sig">
-            <div class="sig-line" id="pv_cliente_sig">Cliente</div>
-            <div>Autorização do Serviço</div>
-          </div>
-        </div>
 
-        <div class="footer-note">
-          Documento emitido em <span id="pv_emissao"></span> • OS válida mediante assinatura • Não nos responsabilizamos por medidas fornecidas incorretamente pelo cliente
+          <div class="totals-wrap">
+            <div class="total-box">
+              <div class="total-row"><span>Mão de Obra</span><span id="pv_mao_obra">R$ 0,00</span></div>
+              <div class="total-row"><span>Materiais</span><span id="pv_total_materiais2">R$ 0,00</span></div>
+              <div class="total-row grand"><span>TOTAL GERAL</span><span id="pv_total_geral">R$ 0,00</span></div>
+            </div>
+            <div class="cond-box">
+              <div><b>Pagamento:</b> <span id="pv_forma_pag">Pix</span></div>
+              <div><b>Entrada:</b> <span id="pv_entrada">R$ 0,00</span> | <b>Saldo:</b> <span id="pv_saldo">R$ 0,00</span></div>
+              <div><b>Garantia:</b> <span id="pv_garantia">12</span> meses contra defeitos de fabricação</div>
+              <div><b>Validade:</b> <span id="pv_validade">15</span> dias</div>
+            </div>
+          </div>
+
+          <div class="signatures">
+            <div class="sig">
+              <div class="sig-line" id="pv_responsavel_sig">Silffer Serralheria</div>
+              <div>Prestador do Serviço</div>
+            </div>
+            <div class="sig">
+              <div class="sig-line" id="pv_cliente_sig">Cliente</div>
+              <div>Autorização do Serviço</div>
+            </div>
+          </div>
+
+          <div class="footer-note">
+            Documento emitido em <span id="pv_emissao"></span> • OS válida mediante assinatura • Não nos responsabilizamos por medidas fornecidas incorretamente pelo cliente
+          </div>
         </div>
       </div>
     </div>
   </section>
 </main>
+
+<button id="fab-pdf" class="fab" aria-label="Gerar PDF">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
@@ -768,6 +816,12 @@ function init(){
   renderMateriais(defaultMateriais);
   bindEvents();
   updateAll();
+  if(window.innerWidth < 769){
+    $('form-panel').classList.add('active');
+    toggleView('form');
+  }
+  window.addEventListener('resize', handleResize);
+  showInstallHint();
 }
 function setDefaults(){
   const hoje = new Date();
@@ -788,6 +842,9 @@ function bindEvents(){
   $('btn-salvar').onclick = salvar;
   $('btn-imprimir').onclick = ()=> window.print();
   $('btn-pdf').onclick = gerarPDF;
+  if($('tab-form')) $('tab-form').onclick = ()=> toggleView('form');
+  if($('tab-preview')) $('tab-preview').onclick = ()=> toggleView('preview');
+  if($('fab-pdf')) $('fab-pdf').onclick = gerarPDF;
 }
 function renderMateriais(items){
   $('materiais-body').innerHTML='';
@@ -797,7 +854,7 @@ function addMaterialRow(desc,qtd,un,valor){
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td><input type="text" class="mat-desc" value="${desc}" placeholder="Ex: Metalon 50x30"></td>
-    <td><input type="number" class="mat-qtd" value="${qtd}" min="0" step="0.01"></td>
+    <td><input type="number" class="mat-qtd" value="${qtd}" min="0" step="0.01" inputmode="decimal"></td>
     <td>
       <select class="mat-un">
         <option ${un==='m'?'selected':''}>m</option>
@@ -807,7 +864,7 @@ function addMaterialRow(desc,qtd,un,valor){
         <option ${un==='l'?'selected':''}>l</option>
       </select>
     </td>
-    <td><input type="number" class="mat-valor" value="${valor}" min="0" step="0.01"></td>
+    <td><input type="number" class="mat-valor" value="${valor}" min="0" step="0.01" inputmode="decimal"></td>
     <td class="mat-subtotal">R$ 0,00</td>
     <td><button type="button" class="remove" title="Remover">×</button></td>
   `;
@@ -827,32 +884,26 @@ function getMateriais(){
   return list;
 }
 function updateAll(){
-  // empresa
   $('pv_empresa_nome').textContent = $('empresa_nome').value;
   $('pv_empresa_tel').textContent = $('empresa_tel').value;
   $('pv_empresa_cnpj').textContent = 'CNPJ ' + $('empresa_cnpj').value;
   $('pv_empresa_end').textContent = $('empresa_endereco').value;
-  // os
   $('pv_os_numero').textContent = $('os_numero').value;
   $('pv_os_data').textContent = fmtDate($('os_data').value);
   $('pv_os_previsao').textContent = fmtDate($('os_previsao').value);
-  // cliente
   $('pv_cliente_nome').textContent = $('cliente_nome').value || '-';
   $('pv_cliente_cpf').textContent = $('cliente_cpf').value || '-';
   $('pv_cliente_whats').textContent = $('cliente_whats').value || '-';
   $('pv_cliente_end').textContent = $('cliente_endereco').value || '-';
   $('pv_cliente_sig').textContent = $('cliente_nome').value || 'Cliente';
-  // servico
   $('pv_servico_tipo').textContent = $('servico_tipo').value;
   $('pv_servico_desc').textContent = $('servico_desc').value;
-  // medidas
   const medidas=[];
   if($('med_altura').value) medidas.push(`Alt: ${$('med_altura').value}m`);
   if($('med_largura').value) medidas.push(`Larg: ${$('med_largura').value}m`);
   if($('med_comprimento').value) medidas.push(`Comp: ${$('med_comprimento').value}m`);
   if($('med_qtd').value) medidas.push(`Qtd: ${$('med_qtd').value}`);
   $('pv_medidas').innerHTML = medidas.map(m=>`<span>${m}</span>`).join('');
-  // materiais calculo
   let totalMat=0;
   let htmlMat='';
   document.querySelectorAll('#materiais-body tr').forEach(tr=>{
@@ -868,7 +919,6 @@ function updateAll(){
     }
   });
   $('pv_materiais_body').innerHTML = htmlMat || `<tr><td colspan="5" style="text-align:center;color:#999;padding:12px">Nenhum material adicionado</td></tr>`;
-  // totais
   const mao = parseFloat($('mao_obra').value)||0;
   const totalGeral = totalMat + mao;
   const entrada = parseFloat($('entrada').value)||0;
@@ -928,7 +978,6 @@ function novaOS(){
   if(!confirm('Criar nova OS? Os dados atuais serão limpos.')) return;
   counter++;
   localStorage.setItem('silffer_counter', counter);
-  // limpar
   $('cliente_nome').value=''; $('cliente_cpf').value=''; $('cliente_whats').value=''; $('cliente_endereco').value='';
   $('servico_tipo').selectedIndex=0; $('servico_desc').value='Fabricação e instalação conforme medidas. Inclui estrutura em metalon, solda MIG, acabamento e pintura esmalte sintético.';
   $('med_altura').value=''; $('med_largura').value=''; $('med_comprimento').value=''; $('med_qtd').value='1';
@@ -937,21 +986,23 @@ function novaOS(){
   renderMateriais(defaultMateriais);
   updateAll();
   salvar();
+  if(window.innerWidth < 769) toggleView('form');
 }
 function gerarPDF(){
   const numero = $('os_numero').value;
   const el = $('os-preview');
-  const originalStyles = {
+  const original = {
     boxShadow: el.style.boxShadow,
     borderRadius: el.style.borderRadius,
+    width: el.style.width,
     maxWidth: el.style.maxWidth,
-    width: el.style.width
+    transform: el.style.transform
   };
-  // Ajusta temporariamente para PDF
   el.style.boxShadow = 'none';
   el.style.borderRadius = '0';
   el.style.width = '190mm';
   el.style.maxWidth = '190mm';
+  el.style.transform = 'none';
   
   const opt = {
     margin: 10,
@@ -963,21 +1014,49 @@ function gerarPDF(){
   
   toast('Gerando PDF...');
   html2pdf().set(opt).from(el).save().then(()=>{
-    // Restaura estilos
-    el.style.boxShadow = originalStyles.boxShadow;
-    el.style.borderRadius = originalStyles.borderRadius;
-    el.style.width = originalStyles.width;
-    el.style.maxWidth = originalStyles.maxWidth;
+    el.style.boxShadow = original.boxShadow;
+    el.style.borderRadius = original.borderRadius;
+    el.style.width = original.width;
+    el.style.maxWidth = original.maxWidth;
+    el.style.transform = original.transform;
     toast('PDF gerado!');
   });
+}
+function toggleView(target){
+  const isMobile = window.innerWidth < 769;
+  if(!isMobile) return;
+  $('tab-form').classList.toggle('active', target==='form');
+  $('tab-preview').classList.toggle('active', target==='preview');
+  $('form-panel').style.display = target==='form' ? 'flex' : 'none';
+  $('preview-panel').style.display = target==='preview' ? 'block' : 'none';
+  $('form-panel').classList.toggle('active', target==='form');
+  $('preview-panel').classList.toggle('active', target==='preview');
+  if(target==='preview'){ updateAll(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function handleResize(){
+  const isMobile = window.innerWidth < 769;
+  if(!isMobile){
+    $('form-panel').style.display = '';
+    $('preview-panel').style.display = '';
+  } else {
+    const showingPreview = $('tab-preview').classList.contains('active');
+    toggleView(showingPreview ? 'preview' : 'form');
+  }
+}
+function showInstallHint(){
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if(isAndroid && !isStandalone){
+    setTimeout(()=> toast('📲 Dica: Menu ⋮ > "Adicionar à tela inicial" para usar como app'), 2500);
+  }
 }
 function toast(msg){
   const t = document.createElement('div');
   t.textContent = msg;
-  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1f2937;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:9999;opacity:0;transition:.3s';
+  t.style.cssText = 'position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.25);z-index:9999;opacity:0;transition:.3s;max-width:90vw;text-align:center';
   document.body.appendChild(t);
   setTimeout(()=>t.style.opacity=1,10);
-  setTimeout(()=>{t.style.opacity=0; setTimeout(()=>t.remove(),300)},2200);
+  setTimeout(()=>{t.style.opacity=0; setTimeout(()=>t.remove(),300)},3000);
 }
 document.addEventListener('DOMContentLoaded', init);
 </script>
